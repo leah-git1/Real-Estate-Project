@@ -1,0 +1,95 @@
+-- יצירת דאטא-בייס
+CREATE DATABASE FoodOrderingSystem329114565;
+GO
+
+-- שימוש בבסיס הנתונים שיצרנו
+USE FoodOrderingSystem329114565;
+GO
+
+-- יצירת טבלת users (משתמשים)
+CREATE TABLE users (
+    user_id INT IDENTITY(1,1) PRIMARY KEY,            -- מזהה ייחודי למשתמש
+    first_name VARCHAR(100) NOT NULL,                  -- שם פרטי
+    last_name VARCHAR(100) NOT NULL,                   -- שם משפחה
+    email VARCHAR(255) NOT NULL UNIQUE,                -- אימייל ייחודי
+    password VARCHAR(255) NOT NULL,                    -- סיסמה מוצפנת
+    phone_number VARCHAR(15),                          -- מספר טלפון
+    address NVARCHAR(MAX),                             -- כתובת
+    role VARCHAR(50) CHECK (role IN ('customer', 'admin')) NOT NULL -- תפקיד (לקוח/מנהל)
+);
+GO
+
+-- יצירת טבלת categories (קטגוריות)
+CREATE TABLE categories (
+    category_id INT IDENTITY(1,1) PRIMARY KEY,         -- מזהה ייחודי לקטגוריה
+    name VARCHAR(100) NOT NULL,                        -- שם הקטגוריה (למשל: פיצה, סלטים)
+    description NVARCHAR(MAX)                          -- תיאור הקטגוריה
+);
+GO
+
+-- יצירת טבלת products (מוצרים)
+CREATE TABLE products (
+    product_id INT IDENTITY(1,1) PRIMARY KEY,          -- מזהה ייחודי למוצר
+    name VARCHAR(255) NOT NULL,                        -- שם המוצר
+    description NVARCHAR(MAX),                         -- תיאור המוצר
+    price DECIMAL(10,2) NOT NULL,                      -- מחיר המוצר
+    image_url VARCHAR(255),                            -- URL לתמונה של המוצר
+    category_id INT,                                   -- מזהה הקטגוריה (foreign key ל-`categories`)
+    CONSTRAINT FK_Products_Categories FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE -- קשר עם טבלת קטגוריות
+);
+GO
+
+-- יצירת טבלת AddOns (תוספות)
+CREATE TABLE add_ons (
+    add_on_id INT IDENTITY(1,1) PRIMARY KEY,          -- מזהה ייחודי לתוספת
+    name VARCHAR(255) NOT NULL,                        -- שם התוספת (למשל: פטריות, גבינה)
+    description NVARCHAR(MAX),                         -- תיאור התוספת
+    price DECIMAL(10,2) NOT NULL                       -- מחיר התוספת
+);
+GO
+
+-- יצירת טבלת ProductAddOn (קשר בין מוצרים לתוספות)
+CREATE TABLE product_add_on (
+    product_id INT,                                   -- מזהה המוצר (foreign key ל-`products`)
+    add_on_id INT,                                    -- מזהה התוספת (foreign key ל-`add_ons`)
+    CONSTRAINT FK_ProductAddOn_Products FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE, -- קשר עם טבלת מוצרים
+    CONSTRAINT FK_ProductAddOn_AddOns FOREIGN KEY (add_on_id) REFERENCES add_ons(add_on_id) ON DELETE CASCADE, -- קשר עם טבלת תוספות
+    PRIMARY KEY (product_id, add_on_id)               -- מפתח ראשי על שני השדות (מוצר ותוספת)
+);
+GO
+
+-- יצירת טבלת orders (הזמנות)
+CREATE TABLE orders (
+    order_id INT IDENTITY(1,1) PRIMARY KEY,            -- מזהה ייחודי להזמנה
+    user_id INT,                                       -- מזהה הלקוח (foreign key ל-`users`)
+    total_price DECIMAL(10,2) NOT NULL,                -- המחיר הכולל של ההזמנה
+    status VARCHAR(50) CHECK (status IN ('pending', 'processing', 'shipped', 'delivered')) NOT NULL, -- סטטוס ההזמנה
+    order_date DATETIME DEFAULT GETDATE(),             -- תאריך ההזמנה
+    delivery_date DATETIME,                            -- תאריך אספקה
+    CONSTRAINT FK_Orders_Users FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE -- קשר עם טבלת משתמשים
+);
+GO
+
+-- יצירת טבלת order_items (פרטי המוצרים בהזמנה)
+CREATE TABLE order_items (
+    order_item_id INT IDENTITY(1,1) PRIMARY KEY,      -- מזהה ייחודי לפריט בהזמנה
+    order_id INT,                                     -- מזהה ההזמנה (foreign key ל-`orders`)
+    product_id INT,                                   -- מזהה המוצר (foreign key ל-`products`)
+    quantity INT NOT NULL,                            -- כמות המוצר בהזמנה
+    price DECIMAL(10,2) NOT NULL,                     -- מחיר המוצר בהזמנה
+    CONSTRAINT FK_OrderItems_Orders FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE, -- קשר עם טבלת הזמנות
+    CONSTRAINT FK_OrderItems_Products FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE -- קשר עם טבלת מוצרים
+);
+GO
+
+-- יצירת טבלת order_item_add_ons (תוספות שהוספו לכל פריט בהזמנה)
+CREATE TABLE order_item_add_ons (
+    order_item_id INT,                                 -- מזהה פריט ההזמנה (foreign key ל-`order_items`)
+    add_on_id INT,                                     -- מזהה התוספת (foreign key ל-`add_ons`)
+    CONSTRAINT FK_OrderItemAddOns_OrderItems FOREIGN KEY (order_item_id) REFERENCES order_items(order_item_id) ON DELETE CASCADE, -- קשר עם טבלת פריטי הזמנה
+    CONSTRAINT FK_OrderItemAddOns_AddOns FOREIGN KEY (add_on_id) REFERENCES add_ons(add_on_id) ON DELETE CASCADE, -- קשר עם טבלת תוספות
+    PRIMARY KEY (order_item_id, add_on_id)             -- מפתח ראשי על שני השדות (פריט ההזמנה ותוספת)
+);
+GO
+
+
