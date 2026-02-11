@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using Services;
+using DTOs;
 namespace WebApiShop.Controllers
 {
     [Route("api/[controller]")]
@@ -16,7 +17,7 @@ namespace WebApiShop.Controllers
             [HttpGet("{id}")]
             public async Task<ActionResult<ProductImageDTO>> GetProductImageById(int id)
             {
-                return await _iProductImageService.GetProductImageById(id);
+                return await _iProductImageService.getProductImageById(id);
             }
 
             [HttpGet("productImage/{productId}")]

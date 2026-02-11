@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class OrderRepository : IOrderRepository, IOrderRepository
+    public class OrderRepository : IOrderRepository
     {
         ShopContext _ShopContext;
         public OrderRepository(ShopContext ShopContext)
@@ -30,7 +30,7 @@ namespace Repository
                 .ToListAsync();
         }
 
-        public async Task<List<Order>> GetAllOrders(int userId)
+        public async Task<List<Order>> GetAllOrders()
         {
             return await _ShopContext.Orders
                 //.Include(o => o.OrderItems)

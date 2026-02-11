@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class ProductImageRepository : IProductImageRepository, IProductImageRepository
+    public class ProductImageRepository :  IProductImageRepository
     {
         ShopContext _ShopContext;
 

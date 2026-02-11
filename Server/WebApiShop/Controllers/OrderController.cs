@@ -25,7 +25,7 @@ namespace WebApiShop.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<List<OrderDTO>>> GetOrdersByUserId(int userId)
+        public async Task<ActionResult<List<OrderHistoryDTO>>> GetOrdersByUserId(int userId)
         {
             return await _iOrderService.GetOrdersByUserId(userId);
         }

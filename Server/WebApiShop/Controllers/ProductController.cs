@@ -41,7 +41,7 @@ namespace WebApiShop.Controllers
         public async Task<ActionResult<ProductDetailsDTO>> Post([FromBody] ProductCreateDTO productCreateDto)
         {
             ProductDetailsDTO newProduct = await _iProductService.addProduct(productCreateDto);
-            return CreatedAtAction(nameof(GetById), new { id = newProduct.ProductID }, newProduct);
+            return CreatedAtAction(nameof(GetById), new { id = newProduct.ProductId }, newProduct);
         }
 
         [HttpPut("{id}")]

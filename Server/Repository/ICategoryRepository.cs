@@ -2,7 +2,7 @@
 
 namespace Repository
 {
-    public interface ICategoryRepository1
+    public interface ICategoryRepository
     {
         Task<Category> AddCategory(Category category);
         Task DeleteCategory(Category category);
