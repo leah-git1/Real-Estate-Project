@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DTOs
 {
-    public record OrderItemDTO(
-        int ProductId,
-        decimal PriceAtPurchase
-    );
-
+    public record ProductViewDTO
+    (string ImageUrl,
+    string Title
+        );
 }

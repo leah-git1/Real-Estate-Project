@@ -19,21 +19,24 @@ namespace Repository
         public async Task<Order> GetOrderById(int ind)
         {
             return await _ShopContext.Orders
-                //.Include(o => o.OrderItems)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(x => x.OrderId == ind);
         }
         public async Task<List<Order>> GetOrdersByUserId(int ind)
         {
             return await _ShopContext.Orders
                 .Where(o => o.UserId == ind)
-                //.Include(o => o.OrderItems)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
                 .ToListAsync();
         }
 
         public async Task<List<Order>> GetAllOrders()
         {
             return await _ShopContext.Orders
-                //.Include(o => o.OrderItems)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi=>oi.Product)
                 .ToListAsync();
         }
 

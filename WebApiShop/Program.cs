@@ -19,7 +19,7 @@ builder.Services.AddScoped<IProductImageService, ProductImageService>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
 
 builder.Host.UseNLog();
-builder.Services.AddDbContext<ShopContext>(option => option.UseSqlServer("Server = srv2\\pupils; Database = RealEstate_DB; Trusted_Connection = True; TrustServerCertificate = True;"));
+builder.Services.AddDbContext<ShopContext>(option => option.UseSqlServer("Server = DESKTOP-TB3DT9H; Database = RealEstateDB; Trusted_Connection = True; TrustServerCertificate = True;"));
 //builder.Configuration.GetConnectionString("DefaultConnection")
 // Add services to the container.
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

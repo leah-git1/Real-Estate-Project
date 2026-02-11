@@ -23,7 +23,7 @@ namespace Services
             CreateMap<ProductCreateDTO, Product>();
 
             CreateMap<ProductUpdateDTO, Product>();
-
+            CreateMap<Product, ProductViewDTO>();
             CreateMap<ProductImage,ProductImageDTO>();
             CreateMap<ProductImageDTO, ProductImage>();
             CreateMap<ProductImageUpdateDTO, ProductImage>();
@@ -39,6 +39,11 @@ namespace Services
             CreateMap<OrderCreateDTO, Order>();
             CreateMap<Order, OrderHistoryDTO>();
             CreateMap<Order, OrderHistoryAdminDTO>();
+            CreateMap<OrderItemDTO, OrderItem>();
+            CreateMap<OrderItem, OrderItemViewDTO>();
+            CreateMap<OrderCreateDTO, Order>();
+            CreateMap<Order, OrderHistoryAdminDTO>();
+            CreateMap<OrderItem, OrderItemDTO>();
 
 
         }

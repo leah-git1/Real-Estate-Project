@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace DTOs
 {
     public record ProductSummaryDTO(
-        int ProductID,
+        int ProductId,
         string Title,
         decimal Price,
-        string MainImageUrl,
+        string ImageUrl,
         string City,
         int Beds,
         string CategoryName

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 namespace DTOs
 {
     public record OrderItemViewDTO(
-        int ProductID,
-        string Title,
-        decimal PriceAtPurchase, 
-        string MainImageUrl
+        int ProductId,
+        decimal PriceAtPurchase,
+        ProductViewDTO Product
     );
 }
